@@ -1,0 +1,1767 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s1="http://www.jetpak.se/jena/1.0/DataTypes" xmlns:s0="http://www.jetpak.se/jena/1.0/ExternalBooking" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" targetNamespace="http://www.jetpak.se/jena/1.0/ExternalBooking" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.jetpak.se/jena/1.0/ExternalBooking">
+      <s:import namespace="http://www.jetpak.se/jena/1.0/DataTypes" />
+      <s:element name="JenaGetTransportAlternatives">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalBooking" type="s1:ExternalBooking" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaGetTransportAlternativesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaGetTransportAlternativesResult" type="s1:TransportAlternatives" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalBooking">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalBooking" type="s1:ExternalBooking" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalBookingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalBookingResponse" type="s1:Confirm" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalDepotOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalDepotOrder" type="s1:ExternalDepotOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalDepotOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalDepotOrderResponse" type="s1:ConfirmDepotOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalPudoOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalPudoOrder" type="s1:ExternalPudoOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JenaExternalPudoOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JenaExternalPudoOrderResponse" type="s1:ConfirmPudoOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.jetpak.se/jena/1.0/DataTypes">
+      <s:complexType name="ExternalBooking">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:BodyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HeaderType">
+        <s:all>
+          <s:element name="Date" type="s1:DateType">
+            <s:annotation>
+              <s:documentation>File creation date in UTC</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Time" type="s1:TimeType">
+            <s:annotation>
+              <s:documentation>File creation time in UTC</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="UserName" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The name of the Jena user that has permission to send this XML to Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Password" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The password for the Jena user that has permission to send this XML to Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:all>
+      </s:complexType>
+      <s:complexType name="BodyType">
+        <s:all>
+          <s:element name="CustomerNbr" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>A Jena internal number for the customer that makes these bookings.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomerProduct" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Controls which transport alternatives that are available.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="RemoteSalesAgentId" type="s1:String100">
+            <s:annotation>
+              <s:documentation>External username for the user that makes the booking. It is mapped to a Jena user.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Shipments" type="s1:ShipmentsType" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="ShipmentsType">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" name="Shipment">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" name="CustomerProduct" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>Controls which transport alternatives that are available.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="TransportAlternativeId" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>If this booking follows a JenaGetTransportAlternatives, this is the Id of one of those alternatives and will be chosen.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="FirstFlight" type="s1:String50">
+                  <s:annotation>
+                    <s:documentation>Only transport alternatives with this flight as the first will be considered. This can also be stated as a semicolon seperated list (routing).</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ForceDeliveryTime" type="s1:TimeType">
+                  <s:annotation>
+                    <s:documentation>Overrides the delivery time calculated by the system. May only be used for certain flight bookings.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="AwbNbr" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>If this doesn't exist Jena generates a new number from a serie.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ContactNbr" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>May be used to group shipments. This is searchable in Jena.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="EndCustomerId" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>The number that the customer has for its customer (external to Jena).</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="NatureOfGoods" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>The name of the gooods that are shipped.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="PickupGeoLocationAlias" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>The customer's name for the pickup geolocation.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="DeliveryGeoLocationAlias" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>The customer's name for the delivery geolocation.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="PrelOrDef" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>1=Only make preliminary, 2=Make definitive.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ExternalLinkURL" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>May be used to link a shipment in Jena to an external system. The URL to a web page showing external information on the shipment.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ExternalLinkName" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>The name of the link in Jena to the web page in ExternalLinkURL.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="StandardTransport" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Instead of specifying details of the booking, this is fetched from a standard booking in Jena.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:group minOccurs="0" ref="s1:ShipmentDetailsGroup" />
+                <s:element minOccurs="0" name="OriginTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Mandatory if Pickup=N and Shipper is not present.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="DestinationTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Mandatory if Delivery=N and Consignee is not present.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ArrivingToJetpakTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Causes a set of transport documents to be printed at the designated transfer point.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Courier" type="s1:CourierType" />
+                <s:element minOccurs="0" name="Customs" type="s1:CustomsType" />
+                <s:element minOccurs="0" name="EndCustomer" type="s1:EndCustomerType" />
+                <s:element minOccurs="0" name="Advises" type="s1:AdvisesType" />
+                <s:element name="Packages" type="s1:PackagesType" />
+                <s:element minOccurs="0" name="BookingInfoURL" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>The file this is a response to.</s:documentation>
+                  </s:annotation>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContactType">
+        <s:all>
+          <s:element minOccurs="0" name="Name" type="s1:String200">
+            <s:annotation>
+              <s:documentation>Name of the consignee/shipper</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Street" type="s1:String200" />
+          <s:element minOccurs="0" name="StreetNbr" type="s1:String20" />
+          <s:element minOccurs="0" name="AdditionalAddressInfo" type="s1:String500" />
+          <s:element minOccurs="0" name="PostCode" type="s1:String20" />
+          <s:element minOccurs="0" name="EntryCode" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Code needed to enter the building to perform the pickup/delivery.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="InfoToCourier" type="s1:String200">
+            <s:annotation>
+              <s:documentation>Specific information regarding pickup or delivery to the courier.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ContactPerson" type="s1:ContactPersonType" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="ContactPersonType">
+        <s:all>
+          <s:element name="FirstName" type="s1:String100" />
+          <s:element minOccurs="0" name="SurName" type="s1:String100" />
+          <s:element minOccurs="0" name="PhoneNbr" type="s1:String20" />
+          <s:element minOccurs="0" name="Email" type="s1:String100" />
+          <s:element minOccurs="0" name="AlternativePhoneNbr" type="s1:String20" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="PayerType">
+        <s:all>
+          <s:element name="PaymentMethod" type="s1:PaymentMethodType">
+            <s:annotation>
+              <s:documentation>1=cash, 2=invoice</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Reference" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If paymentmethod is Invoice this is the reference on the invoice.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomerNbr" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Mandatory if paymentmethod is Invoice. The number is internal to Jena for the customer that pays.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:all>
+      </s:complexType>
+      <s:complexType name="CourierType">
+        <s:all>
+          <s:element minOccurs="0" name="ComponentName" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Which courier component to use for the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="TransportType" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Transport type for the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Distance" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Distance from shipper to consignee.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="BillNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Depends on implementation.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ReturnBillNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Depends on implementation.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Note" type="s1:String500">
+            <s:annotation>
+              <s:documentation>Free text information for a courier shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AdditionalServices" type="s1:AdditionalServicesType" />
+          <s:element minOccurs="0" maxOccurs="1" name="Group" type="s1:GroupType" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="AdditionalServicesType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="AdditionalService">
+            <s:complexType>
+              <s:all>
+                <s:element name="Name" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>Name of the service.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Quantity" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>The quantity of the service.</s:documentation>
+                  </s:annotation>
+                </s:element>
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GroupType">
+        <s:all>
+          <s:element name="GroupDescription" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Description of the group.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="GroupSequence" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Sequence number of the group. If left empty the sequence will iterate from 1,2,3..n, the inserted sequence must begin with 1 but the booking-orders can be placed arbitrarily. If the intention is to append to an existing group, the start sequence number must still begin at 1.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:all>
+      </s:complexType>
+      <s:complexType name="CustomsType">
+        <s:all>
+          <s:element name="NatureOfGoods" type="s1:String200">
+            <s:annotation>
+              <s:documentation>Name of the goods that are transported through customs.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Quantity" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Quantity of goods.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="CommodityCode" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The customs commodity code / Taric nbr.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Value" type="s1:DecimalType">
+            <s:annotation>
+              <s:documentation>Value of the transpored goods.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Currency" type="s1:String20">
+            <s:annotation>
+              <s:documentation>The currency the customs value is declared in.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="InvoiceNbr" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The customs invoice number.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="CountryOfOrigin" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Country from which the shipment originates.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomsIdImport" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If goods have been transported through customs, supply import number here.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomsIdExport" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If goods have been transported through customs, supply export number here.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AdditionalInfo" type="s1:String500" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="EndCustomerType">
+        <s:all>
+          <s:element name="PaymentMethod" type="s1:PaymentMethodType">
+            <s:annotation>
+              <s:documentation>Not used by Jena, only information of the payment method. 1=cash, 2=invoice</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="PaymentReference" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Not used by Jena, only information. If paymentmethod is Invoice this is the reference on the invoice.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="PaymentCustomerNbr" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>A customer in Jena who should recieve the invoice.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:all>
+      </s:complexType>
+      <s:complexType name="AdvisesType">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" name="Advise">
+            <s:complexType>
+              <s:sequence>
+                <s:element name="SendDef" type="s1:BooleanType">
+                  <s:annotation>
+                    <s:documentation>If a message of type DEF should be sent.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="SendStatus" type="s1:BooleanType">
+                  <s:annotation>
+                    <s:documentation>If a message of type STATUS should be sent.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="SendPod" type="s1:BooleanType">
+                  <s:annotation>
+                    <s:documentation>If a message of type POD should be sent.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="SendRebook" type="s1:BooleanType">
+                  <s:annotation>
+                    <s:documentation>If a message of type REBOOK should be sent.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Method" type="s1:MethodType">
+                  <s:annotation>
+                    <s:documentation>How the message should be sent. 1=cash 2=invoice.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Address" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>To which address should the message be sent.</s:documentation>
+                  </s:annotation>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PackagesType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="Package">
+            <s:complexType>
+              <s:all>
+                <s:element name="NatureOfGoods" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>Name of the goods.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Weight" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Weight of the package in kg.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="StandardPackage" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>A case-insensitive name of a standard package in Jena. If volume is specified in booking, the standard package will be ignored.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="PackageId" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>The customers reference for a package.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="SpecialCargo" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>An internal Jena code for the type of cargo.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Length" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Length of the package in cm.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Width" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Width of the package in cm.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Height" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Height of the package in cm.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Articles" type="s1:ArticlesType" />
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArticlesType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="Article">
+            <s:complexType>
+              <s:all>
+                <s:element name="Code" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Code for the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Description" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>Desciption of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Coordinates" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>The warehouse coordinates of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="VatRate" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>The vatrate used for the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ItemWeight" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Item weight of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ItemPrice" type="s1:DecimalType">
+                  <s:annotation>
+                    <s:documentation>Item price of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Currency" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Item currency of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Quantity" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>Quantity of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="DiscountPercent" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>Discount percent of the article.</s:documentation>
+                  </s:annotation>
+                </s:element>
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PaymentMethodType">
+        <s:restriction base="s:string">
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>Cash</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="2">
+            <s:annotation>
+              <s:documentation>Invoice</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PrelDefType">
+        <s:restriction base="s:string">
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>Preliminary booking</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="2">
+            <s:annotation>
+              <s:documentation>Definitive booking</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="MethodType">
+        <s:restriction base="s:string">
+          <s:enumeration value="EMAIL" />
+          <s:enumeration value="SMS" />
+          <s:enumeration value="FAX" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="YesNoType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Y" />
+          <s:enumeration value="N" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="BooleanType">
+        <s:restriction base="s:string">
+          <s:enumeration value="1" />
+          <s:enumeration value="0" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DateTimeType">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DateType">
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="TimeType">
+        <s:restriction base="s:time" />
+      </s:simpleType>
+      <s:simpleType name="NumberType">
+        <s:restriction base="s:positiveInteger" />
+      </s:simpleType>
+      <s:simpleType name="DecimalType">
+        <s:restriction base="s:decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String2">
+        <s:restriction base="s:string">
+          <s:maxLength value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String20">
+        <s:restriction base="s:string">
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String50">
+        <s:restriction base="s:string">
+          <s:maxLength value="50" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String100">
+        <s:restriction base="s:string">
+          <s:maxLength value="100" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String200">
+        <s:restriction base="s:string">
+          <s:maxLength value="200" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="String500">
+        <s:restriction base="s:string">
+          <s:maxLength value="500" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ReverseStatusType">
+        <s:restriction base="s:string">
+          <s:enumeration value="GREEN" />
+          <s:enumeration value="YELLOW" />
+          <s:enumeration value="RED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DepotCallTypeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="SAME DAY" />
+          <s:enumeration value="NEXT DAY" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ElemexCallLevelType">
+        <s:restriction base="s:string">
+          <s:enumeration value="VA0" />
+          <s:enumeration value="VA1" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Confirm">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:ConfirmBodyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfirmBodyType">
+        <s:all>
+          <s:element name="FileName" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="FileStatus" type="s1:FileStatusType">
+            <s:annotation>
+              <s:documentation>Status of the file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorText" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If something was wrong on the file level, this explains what.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="CustomerNbr" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>A Jena internal number for the customer that makes these bookings.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomerProduct" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Controls which transport alternatives are available.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="RemoteSalesAgentId" type="s1:String100">
+            <s:annotation>
+              <s:documentation>External user name for the user that makes the booking. Is mapped to a Jena user.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Shipments" type="s1:ConfirmShipmentsType" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="ConfirmShipmentsType">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" name="Shipment">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" name="CustomerProduct" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>Controls which transport alternatives that are available.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="TransportAlternativeId" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>If this booking follows a JenaGetTransportAlternatives, this is the Id of one of those alternatives and will be chosen.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="FirstFlight" type="s1:String50">
+                  <s:annotation>
+                    <s:documentation>Only transport alternatives with this flight as the first will be considered. This can also be stated as a semicolon seperated list (routing).</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ForceDeliveryTime" type="s1:TimeType">
+                  <s:annotation>
+                    <s:documentation>This time should be used even if the actual delivery time is different.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="AwbNbr" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>If this doesn't exist Jena generates a new number from a serie.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Status" type="s1:ShipmentStatusType">
+                  <s:annotation>
+                    <s:documentation>Status of the shipment in Jena</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="ErrorTexts" type="s1:ErrorTextsType" />
+                <s:element minOccurs="0" name="ContactNbr" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>Number to indicate that several shipments are a group</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="EndCustomerId" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>The number that the customer has for its customer (external to Jena).</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="NatureOfGoods" type="s1:String200">
+                  <s:annotation>
+                    <s:documentation>Name of the goods.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="PrelOrDef" type="s1:NumberType">
+                  <s:annotation>
+                    <s:documentation>1=Only make preliminary, 2=Make definitive.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ExternalLinkURL" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>The URL to a web page showing external information on the shipment.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ExternalLinkName" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>The name of the link in Jena to the web page in ExternalLinkURL.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="StandardTransport" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Instead of specifying details of the booking, this is fetched from a standard booking in Jena.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:group minOccurs="0" ref="s1:ShipmentDetailsGroup" />
+                <s:element minOccurs="0" name="OriginTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Mandatory if Pickup=N and Shipper is not present.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="DestinationTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Mandatory if Delivery=N and Consignee is not present.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="ArrivingToJetpakTransferpoint" type="s1:String20">
+                  <s:annotation>
+                    <s:documentation>Sometimes multiple shipments are booked in Jena for the packages to reach its destination. This is then the transferpoint where Jetpak starts the handling.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Courier" type="s1:CourierType">
+                  <s:annotation>
+                    <s:documentation>Courier specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Customs" type="s1:CustomsType">
+                  <s:annotation>
+                    <s:documentation>Customs specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="EndCustomer" type="s1:EndCustomerType">
+                  <s:annotation>
+                    <s:documentation>EndCustomer specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="Advises" type="s1:AdvisesType">
+                  <s:annotation>
+                    <s:documentation>Advises specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Packages" type="s1:PackagesType">
+                  <s:annotation>
+                    <s:documentation>Packages specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element minOccurs="0" name="BookingInfoURL" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>The file this is a response to.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="TransportAlternative" type="s1:TransportAlternativeType">
+                  <s:annotation>
+                    <s:documentation>TransportAlternative specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Price" type="s1:PriceType">
+                  <s:annotation>
+                    <s:documentation>Price specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="ChainOfEvents" type="s1:ChainOfEventsType">
+                  <s:annotation>
+                    <s:documentation>ChainOfEvents specific data.</s:documentation>
+                  </s:annotation>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:group name="ShipmentDetailsGroup">
+        <s:sequence>
+          <s:element minOccurs="0" name="FromCountry" type="s1:String20">
+            <s:annotation>
+              <s:documentation>FromCountry of the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ToCountry" type="s1:String20">
+            <s:annotation>
+              <s:documentation>ToCountry of the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="FromCity" type="s1:String200">
+            <s:annotation>
+              <s:documentation>FromCity of the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ToCity" type="s1:String200">
+            <s:annotation>
+              <s:documentation>ToCity of the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Pickup" type="s1:YesNoType">
+            <s:annotation>
+              <s:documentation>Y or N</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Delivery" type="s1:YesNoType">
+            <s:annotation>
+              <s:documentation>Y or N</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="InsuranceValue" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>The insurance value of the shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ReadyDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>When the shipment is ready for pickup.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="LatestDeliveryDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>When the shipment must latest be delivered.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="LatestPickupDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>When the pickup latest must be made.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="EarliestDeliveryDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>When the delivery earliest can be made.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ShipmentId" type="s1:String200">
+            <s:annotation>
+              <s:documentation>The customers reference for a shipment.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Shipper" type="s1:ContactType">
+            <s:annotation>
+              <s:documentation>Mandatory if Pickup=Y.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Consignee" type="s1:ContactType">
+            <s:annotation>
+              <s:documentation>Mandatory if Delivery=Y.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="Payer" type="s1:PayerType" />
+          <s:element minOccurs="0" name="AttachDepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Only for Courier2 shipments. This shipment will be attached to supplied order nbr.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:group>
+      <s:complexType name="TransportAlternativeType">
+        <s:sequence>
+          <s:element name="BookLatestDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>The shipment must be definitive booked before this time.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="LatestDeliveryDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>The shipment must be delivered before this time.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:sequence>
+            <s:element maxOccurs="999" name="TransportPart">
+              <s:complexType>
+                <s:all>
+                  <s:element minOccurs="0" name="Line" type="s1:String20">
+                    <s:annotation>
+                      <s:documentation>Flight nbr.</s:documentation>
+                    </s:annotation>
+                  </s:element>
+                  <s:element minOccurs="0" name="DepartureDateTime" type="s1:DateTimeType" />
+                  <s:element minOccurs="0" name="ArrivalDateTime" type="s1:DateTimeType" />
+                  <s:element name="DepartureTransferpoint" type="s1:String20" />
+                  <s:element name="ArrivalTransferpoint" type="s1:String20" />
+                  <s:element name="TransportType" type="s1:String200" />
+                  <s:element name="Distance" type="s1:NumberType" />
+                  <s:element name="Supplier" type="s1:String100">
+                    <s:annotation>
+                      <s:documentation>Supplier to be used in booking.</s:documentation>
+                    </s:annotation>
+                  </s:element>
+                  <s:element name="Component" type="s1:String100">
+                    <s:annotation>
+                      <s:documentation>Component to be used in booking.</s:documentation>
+                    </s:annotation>
+                  </s:element>
+                </s:all>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PriceType">
+        <s:sequence>
+          <s:element name="TotalVatExcluded" type="s1:DecimalType" />
+          <s:element name="TotalVat" type="s1:DecimalType" />
+          <s:element name="TotalVatIncluded" type="s1:DecimalType" />
+          <s:element name="Currency" type="s1:String20" />
+          <s:element name="Fees" type="s1:FeesType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FeesType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="Fee">
+            <s:complexType>
+              <s:all>
+                <s:element name="Name" type="s1:String100" />
+                <s:element name="Price" type="s1:DecimalType" />
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ChainOfEventsType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="Event">
+            <s:complexType>
+              <s:all>
+                <s:element name="Name" type="s1:String100">
+                  <s:annotation>
+                    <s:documentation>Name of event.</s:documentation>
+                  </s:annotation>
+                </s:element>
+                <s:element name="Code" type="s1:String100" />
+                <s:element name="ExpectedDateTime" type="s1:DateTimeType" />
+                <s:element name="Transferpoint" type="s1:String20" />
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ErrorTextsType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ErrorText" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If something was wrong on the shipment level, this explains what.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="FileStatusType">
+        <s:restriction base="s:string">
+          <s:enumeration value="0">
+            <s:annotation>
+              <s:documentation>OK</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>Invalid</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ShipmentStatusType">
+        <s:restriction base="s:string">
+          <s:enumeration value="0">
+            <s:annotation>
+              <s:documentation>Invalid</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>Preliminary</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="2">
+            <s:annotation>
+              <s:documentation>Definitive</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="3">
+            <s:annotation>
+              <s:documentation>Cancelled</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="4">
+            <s:annotation>
+              <s:documentation>POD</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TransportAlternatives">
+        <s:sequence>
+          <s:element minOccurs="0" name="ErrorTexts" type="s1:ErrorTextsType" />
+          <s:element minOccurs="0" name="Alternatives" type="s1:TransportAlternativesType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransportAlternativesType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="999" name="TransportAlternative">
+            <s:complexType>
+              <s:sequence>
+                <s:element name="Id" type="s1:NumberType" />
+                <s:element name="BookLatestDateTime" type="s1:DateTimeType" />
+                <s:element name="LatestDeliveryDateTime" type="s1:DateTimeType" />
+                <s:element minOccurs="0" name="DepartureDateTime" type="s1:DateTimeType" />
+                <s:element minOccurs="0" name="ArrivalDateTime" type="s1:DateTimeType" />
+                <s:element minOccurs="0" name="DepartureTransferpoint" type="s1:String20" />
+                <s:element minOccurs="0" name="ArrivalTransferpoint" type="s1:String20" />
+                <s:element name="PriceExludingVat" type="s1:DecimalType" />
+                <s:element name="PriceInludingVat" type="s1:DecimalType" />
+                <s:element minOccurs="0" name="Customs" type="s1:BooleanType" />
+                <s:element minOccurs="0" name="VIP" type="s1:VipType" />
+                <s:element minOccurs="0" name="TransportInfo" type="s1:TransportInfoType" />
+                <s:element minOccurs="0" name="Supplier" type="s1:String100" />
+                <s:element minOccurs="0" name="Component" type="s1:String100" />
+                <s:element minOccurs="0" name="EarliestDeliveryDateTime" type="s1:DateTimeType" />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransportInfoType">
+        <s:sequence>
+          <s:element maxOccurs="999" name="TransportPart">
+            <s:complexType>
+              <s:all>
+                <s:element name="Line" type="s1:String20" />
+              </s:all>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="VipType">
+        <s:restriction base="s:string">
+          <s:enumeration value="0">
+            <s:annotation>
+              <s:documentation>No VIP</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>VIP pickup</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="2">
+            <s:annotation>
+              <s:documentation>VIP delivery</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="3">
+            <s:annotation>
+              <s:documentation>VIP pickup and delivery</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ExternalDepotOrder">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:BodyDepotOrderType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfirmDepotOrder">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:ConfirmDepotOrderBodyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfirmDepotOrderBodyType">
+        <s:sequence>
+          <s:element name="FileName" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="FileStatus" type="s1:FileStatusType">
+            <s:annotation>
+              <s:documentation>Status of the file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorText" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If something was wrong on the file level, this explains what.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="CustomerNbr" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>A Jena internal number for the customer that makes these bookings.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="DepotOrders">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="1" maxOccurs="unbounded" name="DepotOrder">
+                  <s:complexType>
+                    <s:sequence>
+                      <s:element name="Depot">
+                        <s:complexType>
+                          <s:sequence>
+                            <s:element name="DepotName" type="s1:String100">
+                              <s:annotation>
+                                <s:documentation>Name of the depot to use</s:documentation>
+                              </s:annotation>
+                            </s:element>
+                            <s:element name="DepotCode" type="s1:String100">
+                              <s:annotation>
+                                <s:documentation>Code of the depot to use</s:documentation>
+                              </s:annotation>
+                            </s:element>
+                          </s:sequence>
+                        </s:complexType>
+                      </s:element>
+                      <s:element name="OrderGroups">
+                        <s:complexType>
+                          <s:sequence>
+                            <s:element minOccurs="0" maxOccurs="unbounded" name="OrderGroup">
+                              <s:complexType>
+                                <s:sequence>
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOElemex" type="s1:PUDOElemexType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOIBOB" type="s1:PUDOIBOBType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOReverse" type="s1:PUDOReverseType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="Inbound" type="s1:InboundType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="Outbound" type="s1:OutboundType" />
+                                </s:sequence>
+                              </s:complexType>
+                            </s:element>
+                          </s:sequence>
+                        </s:complexType>
+                      </s:element>
+                    </s:sequence>
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BodyDepotOrderType">
+        <s:sequence>
+          <s:element name="CustomerNbr" type="s1:NumberType" />
+          <s:element name="DepotOrders">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="1" maxOccurs="unbounded" name="DepotOrder">
+                  <s:complexType>
+                    <s:sequence>
+                      <s:element name="Depot">
+                        <s:complexType>
+                          <s:sequence>
+                            <s:element name="DepotName" type="s1:String100">
+                              <s:annotation>
+                                <s:documentation>Name of the depot to use</s:documentation>
+                              </s:annotation>
+                            </s:element>
+                            <s:element name="DepotCode" type="s1:String100">
+                              <s:annotation>
+                                <s:documentation>Code of the depot to use</s:documentation>
+                              </s:annotation>
+                            </s:element>
+                          </s:sequence>
+                        </s:complexType>
+                      </s:element>
+                      <s:element name="OrderGroups">
+                        <s:complexType>
+                          <s:sequence>
+                            <s:element minOccurs="0" maxOccurs="unbounded" name="OrderGroup">
+                              <s:complexType>
+                                <s:sequence>
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOElemex" type="s1:PUDOElemexType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOIBOB" type="s1:PUDOIBOBType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="PUDOReverse" type="s1:PUDOReverseType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="Inbound" type="s1:InboundType" />
+                                  <s:element minOccurs="0" maxOccurs="1" name="Outbound" type="s1:OutboundType" />
+                                </s:sequence>
+                              </s:complexType>
+                            </s:element>
+                          </s:sequence>
+                        </s:complexType>
+                      </s:element>
+                    </s:sequence>
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ErrorTextsDepotOrderType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ErrorText" type="s:string">
+            <s:annotation>
+              <s:documentation>Errors and warnings of current depot order</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PUDOElemexType">
+        <s:sequence>
+          <s:element name="DepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Order number passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorTexts" type="s1:ErrorTextsDepotOrderType">
+            <s:annotation>
+              <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OrderDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>Date time when order should be dispatched</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="IsRSHReceived" type="s1:YesNoType">
+            <s:annotation>
+              <s:documentation>Received from regional stocking hub</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CallType" type="s1:DepotCallTypeType">
+            <s:annotation>
+              <s:documentation>Call type</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CallLevel" type="s1:ElemexCallLevelType">
+            <s:annotation>
+              <s:documentation>Call level</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomerReference" type="s1:String100">
+            <s:annotation>
+              <s:documentation>External order nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Quantity" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Quantity</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Weight" type="s1:DecimalType">
+            <s:annotation>
+              <s:documentation>Weight</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachAwbNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Awb nbr for a courier consignment to attach this order.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachReverseOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Reverse order nbr to attach this order.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachElemexOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>PUDO IBOB order nbr to attach this order.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PUDOIBOBType">
+        <s:sequence>
+          <s:element name="DepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Order number passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorTexts" type="s1:ErrorTextsDepotOrderType">
+            <s:annotation>
+              <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OrderDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>Date time when order should be dispatched</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CustomerReference" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Order nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ExternalOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>External order nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ArticleNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Part number</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachElemexOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Elemex order nbr to attach this order</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="BillNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Bill nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PUDOReverseType">
+        <s:sequence>
+          <s:element name="DepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Order number passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorTexts" type="s1:ErrorTextsDepotOrderType">
+            <s:annotation>
+              <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OrderDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>Date time when order should be dispatched</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="PudoStatus" type="s1:ReverseStatusType">
+            <s:annotation>
+              <s:documentation>Condition code</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OriginalOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Original order nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ArticleNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Part nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Quantity" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Quantity</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="IsCourierReturn" type="s1:YesNoType">
+            <s:annotation>
+              <s:documentation>Is courier return</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ReturnAddress" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Return address</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachReverseOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Elemex order nbr to attach this order.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="InboundType">
+        <s:sequence>
+          <s:element name="DepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Order number passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorTexts" type="s1:ErrorTextsDepotOrderType">
+            <s:annotation>
+              <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OrderDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>Date time when order should be dispatched</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Carrier" type="s1:String100">
+            <s:annotation>
+              <s:documentation>External order nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CountryOfOrigin" type="s1:String2">
+            <s:annotation>
+              <s:documentation>Country of origin</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="BillNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Bill nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ExternalOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Push Id nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ArticleNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Part nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="SerialNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Serial nbr for APC4</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Quantity" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Quantity</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Bin" type="s:string">
+            <s:annotation>
+              <s:documentation>Stated bin location</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OutboundType">
+        <s:sequence>
+          <s:element name="DepotOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Order number passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorTexts" type="s1:ErrorTextsDepotOrderType">
+            <s:annotation>
+              <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="OrderDateTime" type="s1:DateTimeType">
+            <s:annotation>
+              <s:documentation>Date time when order should be dispatched</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="CallType" type="s1:DepotCallTypeType">
+            <s:annotation>
+              <s:documentation>Call type</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ExternalCallTime" type="s1:TimeType">
+            <s:annotation>
+              <s:documentation>Received time IBM</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="IsStandby" type="s1:YesNoType">
+            <s:annotation>
+              <s:documentation>Non-office hours</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ExternalOrderNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Pull Id nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="ArticleNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Part nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="TrackingNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Tracking nbr</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Quantity" type="s1:NumberType">
+            <s:annotation>
+              <s:documentation>Quantity</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="Weight" type="s1:DecimalType">
+            <s:annotation>
+              <s:documentation>Weight</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element minOccurs="0" name="AttachAwbNbr" type="s1:String20">
+            <s:annotation>
+              <s:documentation>Awb nbr for a courier consignment to attach this order.</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExternalPudoOrder">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:BodyPudoOrders" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfirmPudoOrder">
+        <s:sequence>
+          <s:element name="Header" type="s1:HeaderType" />
+          <s:element name="Body" type="s1:ConfirmBodyPudoOrders" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BodyPudoOrders">
+        <s:all>
+          <s:element name="PudoOrders" type="s1:BodyPudoOrder" />
+        </s:all>
+      </s:complexType>
+      <s:complexType name="BodyPudoOrder">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" name="PudoOrder">
+            <s:complexType>
+              <s:sequence>
+                <s:element name="PudoCode" type="s1:String100" />
+                <s:element name="TrackingNbr" type="s1:String100" />
+                <s:element name="ETA" type="s1:DateType" />
+                <s:element name="CallLogNbr" type="s1:String100" />
+                <s:element name="PartNbr" type="s1:String100" />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfirmBodyPudoOrders">
+        <s:sequence>
+          <s:element name="FileName" type="s1:String100">
+            <s:annotation>
+              <s:documentation>The file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="FileStatus" type="s1:FileStatusType">
+            <s:annotation>
+              <s:documentation>Status of the file this is a response to.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="ErrorText" type="s1:String100">
+            <s:annotation>
+              <s:documentation>If something was wrong on the file level, this explains what.</s:documentation>
+            </s:annotation>
+          </s:element>
+          <s:element name="PudoOrders">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="1" maxOccurs="unbounded" name="PudoOrder">
+                  <s:complexType>
+                    <s:sequence>
+                      <s:element name="PudoCode" type="s1:String100" />
+                      <s:element name="TrackingNbr" type="s1:String100" />
+                      <s:element name="ETA" type="s1:DateType" />
+                      <s:element name="CallLogNbr" type="s1:String100" />
+                      <s:element name="PartNbr" type="s1:String100" />
+                      <s:element name="PudoOrderId" type="s1:NumberType" />
+                      <s:element name="Status" type="s1:PudoStatusType" />
+                      <s:element name="ErrorTexts" type="s1:ErrorTextsPudoOrderType">
+                        <s:annotation>
+                          <s:documentation>Errors/warnings passed back by Jena</s:documentation>
+                        </s:annotation>
+                      </s:element>
+                    </s:sequence>
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PudoStatusType">
+        <s:restriction base="s:string">
+          <s:enumeration value="0">
+            <s:annotation>
+              <s:documentation>Error occured</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="1">
+            <s:annotation>
+              <s:documentation>Arrival registration</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="2">
+            <s:annotation>
+              <s:documentation>Depature registration</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="3">
+            <s:annotation>
+              <s:documentation>Return registration</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="4">
+            <s:annotation>
+              <s:documentation>Register</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="5">
+            <s:annotation>
+              <s:documentation>Closed</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+          <s:enumeration value="6">
+            <s:annotation>
+              <s:documentation>Discrepancy</s:documentation>
+            </s:annotation>
+          </s:enumeration>
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ErrorTextsPudoOrderType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ErrorText" type="s1:String100">
+            <s:annotation>
+              <s:documentation>Errors and warnings of current pudo order</s:documentation>
+            </s:annotation>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </types>
+  <message name="JenaGetTransportAlternativesSoapIn">
+    <part name="parameters" element="s0:JenaGetTransportAlternatives" />
+  </message>
+  <message name="JenaGetTransportAlternativesSoapOut">
+    <part name="parameters" element="s0:JenaGetTransportAlternativesResponse" />
+  </message>
+  <message name="JenaExternalBookingSoapIn">
+    <part name="parameters" element="s0:JenaExternalBooking" />
+  </message>
+  <message name="JenaExternalBookingSoapOut">
+    <part name="parameters" element="s0:JenaExternalBookingResponse" />
+  </message>
+  <message name="JenaExternalDepotOrderSoapIn">
+    <part name="parameters" element="s0:JenaExternalDepotOrder" />
+  </message>
+  <message name="JenaExternalDepotOrderSoapOut">
+    <part name="parameters" element="s0:JenaExternalDepotOrderResponse" />
+  </message>
+  <message name="JenaExternalPudoOrderSoapIn">
+    <part name="parameters" element="s0:JenaExternalPudoOrder" />
+  </message>
+  <message name="JenaExternalPudoOrderSoapOut">
+    <part name="parameters" element="s0:JenaExternalPudoOrderResponse" />
+  </message>
+  <portType name="ExternalBookingSoap">
+    <operation name="JenaGetTransportAlternatives">
+      <input message="s0:JenaGetTransportAlternativesSoapIn" />
+      <output message="s0:JenaGetTransportAlternativesSoapOut" />
+    </operation>
+    <operation name="JenaExternalBooking">
+      <input message="s0:JenaExternalBookingSoapIn" />
+      <output message="s0:JenaExternalBookingSoapOut" />
+    </operation>
+    <operation name="JenaExternalDepotOrder">
+      <input message="s0:JenaExternalDepotOrderSoapIn" />
+      <output message="s0:JenaExternalDepotOrderSoapOut" />
+    </operation>
+    <operation name="JenaExternalPudoOrder">
+      <input message="s0:JenaExternalPudoOrderSoapIn" />
+      <output message="s0:JenaExternalPudoOrderSoapOut" />
+    </operation>
+  </portType>
+  <binding name="ExternalBookingSoap" type="s0:ExternalBookingSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="JenaGetTransportAlternatives">
+      <soap:operation soapAction="http://www.jetpak.se/jena/1.0/ExternalBooking/JenaGetTransportAlternatives" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="JenaExternalBooking">
+      <soap:operation soapAction="http://www.jetpak.se/jena/1.0/ExternalBooking/JenaExternalBooking" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="JenaExternalDepotOrder">
+      <soap:operation soapAction="http://www.jetpak.se/jena/1.0/ExternalBooking/JenaExternalDepotOrder" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="JenaExternalPudoOrder">
+      <soap:operation soapAction="http://www.jetpak.se/jena/1.0/ExternalBooking/JenaExternalPudoOrder" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="JenaExternalBookingWebService">
+    <documentation>Jetpak External Booking Web Service</documentation>
+    <port name="ExternalBookingSoap" binding="s0:ExternalBookingSoap">
+      <soap:address location="https://testjena.jetpak.com/JenaExternalBooking.rpcx" />
+    </port>
+  </service>
+</definitions>
